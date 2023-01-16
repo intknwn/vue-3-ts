@@ -1,23 +1,30 @@
-<template>
-	<div>
-	  <p>{{ count }}</p>
-	  <button @click="reset">Reset</button>
-	</div>
-</template>
+<script setup lang="ts">
+import { ref, reactive, onMounted } from 'vue';
+import fetchCount from './fetchCount';
 
-<script>
-import useAutoCount from './composables/useAutoCount'
-
-export default {
-  name: 'App',
-  setup() {
-    const { count } = useAutoCount(0)
-
-    function reset() {
-      count.value = 0
-    }
-
-    return { count, reset }
-  }
+interface AppInfo {
+  name: string;
+  slogan: string;
 }
+
+const count = ref(0);
+
+const appInfo: AppInfo = reactive({
+  name: 'Counter',
+  slogan: 'an app you can count on',
+});
+
+onMounted(() => {
+  fetchCount((initialCount) => {
+    count.value = initialCount;
+  });
+});
 </script>
+
+<template>
+  <div>
+    <h1>{{ appInfo.name }}</h1>
+    <h2>{{ appInfo.slogan }}</h2>
+  </div>
+  <p>{{ count }}</p>
+</template>
