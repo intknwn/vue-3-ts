@@ -1,23 +1,15 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
-import fetchCount from './fetchCount';
+import { reactive } from 'vue';
+import Counter from './components/Counter.vue';
 
 interface AppInfo {
   name: string;
   slogan: string;
 }
 
-const count = ref(0);
-
 const appInfo: AppInfo = reactive({
   name: 'Counter',
   slogan: 'an app you can count on',
-});
-
-onMounted(() => {
-  fetchCount((initialCount) => {
-    count.value = initialCount;
-  });
 });
 </script>
 
@@ -26,5 +18,5 @@ onMounted(() => {
     <h1>{{ appInfo.name }}</h1>
     <h2>{{ appInfo.slogan }}</h2>
   </div>
-  <p>{{ count }}</p>
+  <Counter :limit="10"></Counter>
 </template>
